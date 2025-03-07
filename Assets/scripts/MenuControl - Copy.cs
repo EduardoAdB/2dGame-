@@ -6,7 +6,7 @@ using UnityEngine;
 public class MenuControl : MonoBehaviour
 {
     public Animator animacao;
-    bool isopen = false;
+    bool isopen = true;
 
     private void Update()
     {
@@ -14,12 +14,14 @@ public class MenuControl : MonoBehaviour
         {
             animacao.SetTrigger("Open");
             isopen = true;
+            Debug.Log("abriu");
         }
 
-        if(Input.GetKeyDown(KeyCode.X)&& isopen == true)
+        if(Input.GetKeyDown(KeyCode.C)&& isopen == true)
         {
             animacao.SetTrigger("Close");
             isopen = false;
+            Debug.Log("fechou");
         }
     }
 }
