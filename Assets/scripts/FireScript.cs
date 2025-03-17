@@ -10,12 +10,19 @@ public class FireScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            animator.SetTrigger("Fire");
+            animator.SetBool("Shoot 0", true);
+            StartCoroutine(ResetShootAfterAnimation());
         }
 
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            animator.SetTrigger("Unfire");
-        }
+    } 
+    private IEnumerator ResetShootAfterAnimation()
+    {
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        float animationTime = stateInfo.length;
+
+        yield return new WaitForSeconds(animationTime);
+
+        animator.SetBool("Shoot 0", false);
     }
+    
 }
