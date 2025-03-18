@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Boatcontrol : MonoBehaviour
 {
@@ -15,22 +13,28 @@ public class Boatcontrol : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
     }
+
     private void Update()
     {
         Hdirection = Input.GetAxis("Horizontal");
-
-        MoveH();
-
         Vdirection = Input.GetAxis("Vertical");
-        MoveV();
 
+        Move();
+        RotateBoat();
     }
-    void MoveH()
+
+    void Move()
     {
-        rigidbody2D.velocity = new Vector2(Hdirection * speed, rigidbody2D.velocity.y);
+        rigidbody2D.velocity = new Vector2(Hdirection * speed, Vdirection * speed);
     }
-    void MoveV()
+
+    void RotateBoat()
     {
-        rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, Vdirection * speed);
+        Vector2 direction = rigidbody2D.velocity;
+        if (direction.sqrMagnitude > 0.01f) // Avoid rotating when not moving
+        {
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90f; // Adjusted by -90 degrees
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
     }
 }
